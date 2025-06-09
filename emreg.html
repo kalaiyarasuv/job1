@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> EM Create New Account</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7ff, #b3e5fc);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  
+    .container {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 420px;
+      transition: all 0.3s ease;
+    }
+  
+    .heading {
+      font-size: 30px;
+      font-weight: 700;
+      color: #0077cc;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+  
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+  
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #444;
+    }
+  
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+  
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border: 1px solid #0077cc;
+      outline: none;
+      box-shadow: 0 0 6px rgba(0, 119, 204, 0.3);
+    }
+  
+    .submit-button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(45deg, #0077cc, #005fa3);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+  
+    .submit-button:hover {
+      background: linear-gradient(45deg, #0066b2, #004b8a);
+      transform: translateY(-2px);
+    }
+  
+    .submit-button:active {
+      transform: scale(0.98);
+    }
+  
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+  
+    .login-link a {
+      color: #0077cc;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  
+    .input-group input::placeholder {
+      color: #aaa;
+    }
+  
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+        border-radius: 16px;
+      }
+  
+      .heading {
+        font-size: 24px;
+      }
+  
+      .submit-button {
+        padding: 12px;
+        font-size: 15px;
+      }
+    }
+  </style>
+  
+</head>
+<body>
+  <div class="container">
+    <div class="heading">EM Create New Account</div>
+    <form action="emreg.php" method="post" class="form" onsubmit="return validateForm()">
+      <div class="input-group">
+        <label for="username">Full Name</label>
+        <input type="text" name="username" id="username" placeholder="Enter your full name" required />
+      </div>
+
+      <div class="input-group">
+        <label for="email">E-mail</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email" required />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Create a password" required />
+        <div class="error-message" id="password-error"></div>
+      </div>
+
+      <div class="input-group">
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" name="confirm-password" id="confirm-password" placeholder="Confirm your password" required />
+        <div class="error-message" id="confirm-password-error"></div>
+      </div>
+
+      <input type="submit" value="Create Account" class="submit-button" />
+    </form>
+
+    <div class="login-link">
+      <p>Already have an account? <a href="emlogin.html">Login here</a></p>
+    </div>
+  </div>
+
+  
+
+    <script>
+        function validateForm() {
+            // Clear previous error messages
+            document.getElementById('password-error').innerText = '';
+            document.getElementById('confirm-password-error').innerText = '';
+
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirm-password').value;
+
+            // Check if password is exactly 8 characters
+            if (password.length !== 8) {
+                document.getElementById('password-error').innerText = 'Password must be exactly 8 characters long.';
+                return false;
+            }
+
+            // Check if password and confirm password match
+            if (password !== confirmPassword) {
+                document.getElementById('confirm-password-error').innerText = 'Passwords do not match.';
+                return false;
+            }
+
+            // Allow form submission if all validations pass
+            return true;
+        }
+    </script>
+</body>
+</html>

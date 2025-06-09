@@ -1,0 +1,6 @@
+CREATE TABLE applications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    job_id INT NOT NULL,
+    applied_at DATETIME NOT NULL
+);
