@@ -57,12 +57,14 @@ $result = $conn->query($sql);
             background-color: #0d6efd;
             color: white;
         }
+<<<<<<< HEAD
            .user_profile img{
             width: 20px;
             position: relative;
             top:9px;
         }
         
+
     </style>
 </head>
 <body>
@@ -78,6 +80,7 @@ $result = $conn->query($sql);
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
+\
                 <a href="pp.php" class="nav-item nav-link">Home</a>
                 <!-- <a href="about.html" class="nav-item nav-link">About</a> -->
                                 <a href="contact.html" class="nav-item nav-link">Contact</a>
@@ -89,7 +92,11 @@ $result = $conn->query($sql);
                     <button>Workd</button>
                 </a>
 
-            <a href="All-job.php" class="btn btn-outline-primary rounded-0 py-4 px-lg-4 d-none d-lg-block me-2">Post Job</a>
+\                <a href="index.html" class="nav-item nav-link">Home</a>
+                <a href="about.html" class="nav-item nav-link">About</a>
+                <a href="contact.html" class="nav-item nav-link">Contact</a>
+            </div>
+\            <a href="All-job.php" class="btn btn-outline-primary rounded-0 py-4 px-lg-4 d-none d-lg-block me-2">Post Job</a>
             <a href="logout.php" class="btn btn-outline-danger rounded-0 py-4 px-lg-4 d-none d-lg-block">Logout</a>
         </div>
     </nav>
@@ -141,6 +148,7 @@ $result = $conn->query($sql);
                                             Apply as Group
                                     </button>
                                     </form> -->
+
                             </div>
                         </div>
                     </div>
