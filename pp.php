@@ -137,7 +137,6 @@ $result = $conn->query($sql);
                                             Apply as Group
                                     </button>
                                     </form>
-git remote add origin https://github.com/kalaiyarasuv/job1.git
                             </div>
                             
                         </div>
