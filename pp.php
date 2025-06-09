@@ -85,6 +85,10 @@ $result = $conn->query($sql);
                 <a href ="user_profile.html" class="user_profile">
                    <img src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" alt="Profile">
                 </a>            </div>
+                <a href ='view_applications.php' >
+                    <button>Workd</button>
+                </a>
+
             <a href="All-job.php" class="btn btn-outline-primary rounded-0 py-4 px-lg-4 d-none d-lg-block me-2">Post Job</a>
             <a href="logout.php" class="btn btn-outline-danger rounded-0 py-4 px-lg-4 d-none d-lg-block">Logout</a>
         </div>
@@ -128,7 +132,7 @@ $result = $conn->query($sql);
                                     Posted by <?= htmlspecialchars($row['posted_by']) ?> on 
                                     <?= date('F j, Y, g:i a', strtotime($row['posted_at'])) ?>
                                 </small>
-                               <form action="apply.php" method="post" class="mt-3">
+                               <!-- <form action="apply.php" method="post" class="mt-3">
                                     <input type="hidden" name="job_id" value="<?= htmlspecialchars($row['id']) ?>">
                                     <button type="submit" name="apply_type" value="individual" class="btn btn-success me-2">
                                             Apply as Individual
@@ -136,9 +140,8 @@ $result = $conn->query($sql);
                                     <button type="submit" name="apply_type" value="group" class="btn btn-primary">
                                             Apply as Group
                                     </button>
-                                    </form>
+                                    </form> -->
                             </div>
-                            git remote add origin 
                         </div>
                     </div>
                 </div>

@@ -48,6 +48,12 @@ $result = $conn->query($sql);
         .card-title {
             font-weight: 700;
         }
+            .user_profile img{
+            width: 20px;
+            position: relative;
+            top:9px;
+        }
+        
     </style>
 </head>
 <body>
@@ -64,8 +70,12 @@ $result = $conn->query($sql);
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="index.html" class="nav-item nav-link">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
+                <a href="job_seeker.php" class="nav-item nav-link">work Status</a>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
+                
+                <a href ="user_profile.html" class="user_profile">
+                   <img src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" alt="Profile">
+                </a>       
             </div>
             <a href="All-job.php" class="btn btn-outline-primary rounded-0 py-4 px-lg-4 d-none d-lg-block me-2">Post Job</a>
             <a href="logout.php" class="btn btn-outline-danger rounded-0 py-4 px-lg-4 d-none d-lg-block">Logout</a>
@@ -111,6 +121,18 @@ $result = $conn->query($sql);
                                     Posted by <?= htmlspecialchars($row['posted_by']) ?> on 
                                     <?= date('F j, Y, g:i a', strtotime($row['posted_at'])) ?>
                                 </small>
+                              <form action="apply.php" method="post" class="mt-3">
+    <input type="hidden" name="job_id" value="<?= htmlspecialchars($row['job_id']) ?>">
+    
+    <button type="submit" name="apply_type" value="individual" class="btn btn-success me-2">
+        Apply as Individual
+    </button>
+
+    <button type="submit" name="apply_type" value="group" class="btn btn-primary">
+        Apply as Group
+    </button>
+</form>
+
                             </div>
                         </div>
                     </div>
