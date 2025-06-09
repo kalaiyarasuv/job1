@@ -14,6 +14,7 @@ if ($id <= 0) {
     die("Invalid user ID.");
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Process update
     $name = sanitize($_POST['name'] ?? '');
