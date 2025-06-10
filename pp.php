@@ -1,21 +1,19 @@
 <?php
 session_start();
 
-$username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+$username = $_SESSION['username'] ?? null;
 
 if (!$username) {
     echo "<script>alert('You must be logged in to view this page.'); window.location.href='emlogin.html';</script>";
     exit();
 }
 
-// Database connection
 $conn = new mysqli("localhost", "root", "", "job_hive");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Handle filtering
-$filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
+$filter = $_GET['filter'] ?? 'all';
 
 switch ($filter) {
     case 'today':
@@ -57,14 +55,11 @@ $result = $conn->query($sql);
             background-color: #0d6efd;
             color: white;
         }
-<<<<<<< HEAD
-           .user_profile img{
+        .user_profile img {
             width: 20px;
             position: relative;
-            top:9px;
+            top: 9px;
         }
-        
-
     </style>
 </head>
 <body>
@@ -80,23 +75,14 @@ $result = $conn->query($sql);
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-\
                 <a href="pp.php" class="nav-item nav-link">Home</a>
-                <!-- <a href="about.html" class="nav-item nav-link">About</a> -->
-                                <a href="contact.html" class="nav-item nav-link">Contact</a>
-
-                <a href ="user_profile.html" class="user_profile">
-                   <img src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" alt="Profile">
-                </a>            </div>
-                <a href ='view_applications.php' >
-                    <button>Workd</button>
-                </a>
-
-\                <a href="index.html" class="nav-item nav-link">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="user_profile.html" class="nav-item nav-link user_profile">
+                    <img src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" alt="Profile">
+                </a>
+                <a href="view_applications.php" class="nav-item nav-link">View Applications</a>
             </div>
-\            <a href="All-job.php" class="btn btn-outline-primary rounded-0 py-4 px-lg-4 d-none d-lg-block me-2">Post Job</a>
+            <a href="All-job.php" class="btn btn-outline-primary rounded-0 py-4 px-lg-4 d-none d-lg-block me-2">Post Job</a>
             <a href="logout.php" class="btn btn-outline-danger rounded-0 py-4 px-lg-4 d-none d-lg-block">Logout</a>
         </div>
     </nav>
@@ -113,13 +99,9 @@ $result = $conn->query($sql);
 
         <?php if ($result && $result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
-                <?php 
-                    $hasImage = !empty($row['job_image']) && file_exists($row['job_image']); 
-                ?>
+                <?php $hasImage = !empty($row['job_image']) && file_exists($row['job_image']); ?>
                 <div class="card mb-4 shadow-sm">
                     <div class="row g-0">
-                        <p class="mb-1 text-muted"><strong>Posted by:</strong> <?= htmlspecialchars($row['posted_by']) ?></p>
-
                         <?php if ($hasImage): ?>
                             <div class="col-md-4">
                                 <img src="<?= htmlspecialchars($row['job_image']) ?>" class="img-fluid rounded-start" alt="Job Image">
@@ -131,24 +113,27 @@ $result = $conn->query($sql);
                                 <h6 class="text-muted"><?= htmlspecialchars($row['job_type']) ?></h6>
                                 <p class="card-text"><?= nl2br(htmlspecialchars($row['job_description'])) ?></p>
                                 <p>
-                                    <strong>Category:</strong> <?= htmlspecialchars($row['category']) ?> | 
-                                    <strong>Location:</strong> <?= htmlspecialchars($row['location']) ?> | 
+                                    <strong>Category:</strong> <?= htmlspecialchars($row['category']) ?> |
+                                    <strong>Location:</strong> <?= htmlspecialchars($row['location']) ?> |
                                     <strong>Salary:</strong> <?= htmlspecialchars($row['salary']) ?>
                                 </p>
                                 <small class="text-muted">
                                     Posted by <?= htmlspecialchars($row['posted_by']) ?> on 
                                     <?= date('F j, Y, g:i a', strtotime($row['posted_at'])) ?>
                                 </small>
-                               <!-- <form action="apply.php" method="post" class="mt-3">
+
+                                <!-- Uncomment below if Apply button is needed -->
+                                <!--
+                                <form action="apply.php" method="post" class="mt-3">
                                     <input type="hidden" name="job_id" value="<?= htmlspecialchars($row['id']) ?>">
                                     <button type="submit" name="apply_type" value="individual" class="btn btn-success me-2">
-                                            Apply as Individual
+                                        Apply as Individual
                                     </button>
                                     <button type="submit" name="apply_type" value="group" class="btn btn-primary">
-                                            Apply as Group
+                                        Apply as Group
                                     </button>
-                                    </form> -->
-
+                                </form>
+                                -->
                             </div>
                         </div>
                     </div>
@@ -179,7 +164,7 @@ $result = $conn->query($sql);
         </div>
     </div>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" style="position: fixed; bottom: 20px; right: 20px; display: none;">
         <i class="bi bi-arrow-up"></i>
     </a>
@@ -195,7 +180,6 @@ $result = $conn->query($sql);
             $('.back-to-top').fadeOut();
         }
     });
-
     $('.back-to-top').click(function () {
         $('html, body').animate({scrollTop: 0}, 600);
         return false;

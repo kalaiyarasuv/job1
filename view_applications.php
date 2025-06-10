@@ -96,11 +96,12 @@ $result = $stmt->get_result();
             <td><?= ucfirst(htmlspecialchars($row['status'])) ?></td>
             <td>
                 <?php if ($row['status'] === 'pending'): ?>
-                    <form method="post" action="user_edit.php" style="display:inline;">
-                        <input type="hidden" name="app_id" value="<?= $row['id'] ?>">
-                        <button name="action" value="approve" class="btn btn-success btn-sm">Approve</button>
-                        <button name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
-                    </form>
+<form method="post" action="user_approve.php" style="display:inline;">
+    <input type="hidden" name="application_id" value="<?= $row['id'] ?>">
+    <button type="submit" name="status" value="approved" class="btn btn-success btn-sm">Approve</button>
+    <button type="submit" name="status" value="rejected" class="btn btn-danger btn-sm">Reject</button>
+</form>
+
                 <?php else: ?>
                     <?= ucfirst(htmlspecialchars($row['status'])) ?>
                 <?php endif; ?>

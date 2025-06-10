@@ -57,7 +57,7 @@ if ($applyType === 'individual') {
 }
 
 if ($stmt->execute()) {
-    echo "<script>alert('Application submitted successfully!'); window.location.href='pp.php';</script>";
+    echo "<script>alert('Application submitted successfully!'); window.location.href='All-job2.php';</script>";
 } else {
     echo "Error: " . $stmt->error;
 }

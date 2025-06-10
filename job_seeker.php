@@ -1,28 +1,30 @@
-<?php 
+<?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "job_hive");
 
-// Check connection
+// 1. Connect to the database
+$conn = new mysqli("localhost", "root", "", "job_hive");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Ensure user email is available in session
-$user_email = $_SESSION['email'] ?? '';
-
-if (!$user_email) {
-    die("User email not found in session. Please log in.");
+// 2. Check if the user is logged in
+$applicant_email = $_SESSION['email'] ?? '';
+if (!$applicant_email) {
+    echo "<script>alert('User not logged in. Please log in.'); window.location.href='login.html';</script>";
+    exit();
 }
 
-// Fetch applications for this user
-$sql = "SELECT applicant, status FROM applications WHERE email = ?";
+// 3. Fetch the applicant's job applications
+$sql = "SELECT jobs.posted_by AS posted_by, applications.status 
+        FROM applications 
+        JOIN jobs ON applications.job_id = jobs.	job_id  
+        WHERE applications.email = ?";
 $stmt = $conn->prepare($sql);
-
 if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
-$stmt->bind_param("s", $user_email);
+$stmt->bind_param("s", $applicant_email);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -30,7 +32,7 @@ $result = $stmt->get_result();
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Your Applications</title>
+  <title>Your Job Applications</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -72,12 +74,12 @@ $result = $stmt->get_result();
       padding-left: 10px;
     }
 
-    .approve {
+    .approved {
       color: green;
       border-left-color: green;
     }
 
-    .reject {
+    .rejected {
       color: red;
       border-left-color: red;
     }
@@ -100,18 +102,22 @@ $result = $stmt->get_result();
 
     <?php
     if ($result->num_rows === 0) {
-        echo "<p class='no-apps'>No applications found.</p>";
+        echo "<p class='no-apps'>No applications found for your account.</p>";
     } else {
-        while ($row = $result->fetch_assoc()) {
-            $applicant = htmlspecialchars($row['applicant']);
-            $status = strtolower($row['status']);
-            $statusClass = ($status === 'approve') ? 'approve' : (($status === 'reject') ? 'reject' : 'pending');
+     while ($row = $result->fetch_assoc()) {
+    $job_name = htmlspecialchars($row['posted_by']);
+    $status = strtolower($row['status']);
+    $statusClass = 'pending';
 
-            echo "<div class='application $statusClass'>";
-            echo "<strong>Applicant:</strong> $applicant";
-            echo "<span class='status'>" . ucfirst($status) . "</span>";
-            echo "</div>";
-        }
+    if ($status === 'approved') $statusClass = 'approved';
+    elseif ($status === 'rejected') $statusClass = 'rejected';
+
+    echo "<div class='application $statusClass'>";
+    echo "<strong>Job Title:</strong> $job_name<br>";
+    echo "<strong>Status:</strong> <span class='status'>" . ucfirst($status) . "</span>";
+    echo "</div>";
+}
+
     }
 
     $stmt->close();
