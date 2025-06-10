@@ -15,7 +15,7 @@ if (!$applicant_email) {
 }
 
 // 3. Fetch the applicant's job applications
-$sql = "SELECT jobs.posted_by AS posted_by, applications.status 
+$sql = "SELECT jobs.job_title AS job_title, applications.status 
         FROM applications 
         JOIN jobs ON applications.job_id = jobs.	job_id  
         WHERE applications.email = ?";
@@ -105,7 +105,7 @@ $result = $stmt->get_result();
         echo "<p class='no-apps'>No applications found for your account.</p>";
     } else {
      while ($row = $result->fetch_assoc()) {
-    $job_name = htmlspecialchars($row['posted_by']);
+    $job_name = htmlspecialchars($row['job_title']);
     $status = strtolower($row['status']);
     $statusClass = 'pending';
 

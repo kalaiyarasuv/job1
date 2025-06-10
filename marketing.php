@@ -36,6 +36,14 @@ $result = $stmt->get_result();
         .card-title {
             font-weight: 700;
         }
+        .btn-logout {
+    background-color: #f44336; /* Red */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+}
     </style>
 </head>
 <body>
@@ -51,12 +59,13 @@ $result = $stmt->get_result();
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.html" class="nav-item nav-link">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
+                <a href="marketing.php" class="nav-item nav-link">Home</a>
+                <!-- <a href="job_seeker.php" class="nav-item nav-link">Work Status</a> -->
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
+                
             </div>
             <!-- <a href="All-job.php" class="btn btn-outline-primary rounded-0 py-4 px-lg-4 d-none d-lg-block me-2">Post Job</a> -->
-            <a href="logout.php" class="btn btn-outline-danger rounded-0 py-4 px-lg-4 d-none d-lg-block">Logout</a>
+<a href="logout.php" class="btn-logout">Logout</a>
         </div>
     </nav>
 

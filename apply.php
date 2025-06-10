@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// Database connection
 $conn = new mysqli("localhost", "root", "", "job_hive");
 
 // Check connection
@@ -14,11 +15,25 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+// Check if user profile is filled
+$email = $_SESSION['username'];
+$profileCheck = $conn->prepare("SELECT * FROM user_details WHERE email = ?");
+$profileCheck->bind_param("s", $email);
+$profileCheck->execute();
+$profileResult = $profileCheck->get_result();
+
+if ($profileResult->num_rows == 0) {
+    echo "<script>alert('Please complete your profile before applying for a job.'); window.location.href='user_profile.html';</script>";
+    exit();
+}
+$profileData = $profileResult->fetch_assoc();
+
+// Check for form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id'], $_POST['apply_type'])) {
     $jobId = intval($_POST['job_id']);
     $applyType = $_POST['apply_type'];
 
-    // Prepare statement to get poster from jobs table
+    // Get posted_by from jobs table
     $stmt = $conn->prepare("SELECT posted_by FROM jobs WHERE job_id = ?");
     if (!$stmt) {
         die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
@@ -29,15 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id'], $_POST['app
     $fetchSuccess = $stmt->fetch();
     $stmt->close();
 
-    // Debug output - comment out after verifying
-    // var_dump("jobId: $jobId", "postedBy: $postedBy", "fetchSuccess: $fetchSuccess"); exit;
-
     if (!$fetchSuccess || empty($postedBy)) {
         echo "<script>alert('Invalid job selected.'); window.location.href='All-job2.php';</script>";
         exit();
     }
 
-    // Save to session for form
+    // Save to session
     $_SESSION['apply_job_id'] = $jobId;
     $_SESSION['apply_type'] = $applyType;
     $_SESSION['job_poster'] = $postedBy;
@@ -65,11 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id'], $_POST['app
 
             <div class="mb-3">
                 <label>Your Full Name</label>
-                <input type="text" name="full_name" class="form-control" required>
+                <input type="text" name="full_name" class="form-control" required value="<?= htmlspecialchars($profileData['full_name']) ?>">
             </div>
             <div class="mb-3">
                 <label>Your Email</label>
-                <input type="email" name="email" class="form-control" required>
+                <input type="email" name="email" class="form-control" required value="<?= htmlspecialchars($profileData['email']) ?>">
             </div>
             <div class="mb-3">
                 <label>Your Skills or Experience (Resume)</label>

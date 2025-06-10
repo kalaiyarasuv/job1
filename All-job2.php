@@ -39,6 +39,41 @@ $result = $conn->query($sql);
         .navbar-text { font-weight: 600; color: #0d6efd; margin-right: 1rem; align-self: center; }
         .card-title { font-weight: 700; }
         .user_profile img { width: 20px; position: relative; top: 9px; }
+       .btn-post {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+}
+.job-card {
+    background-color: #f8f9fa; /* Light background */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Center text */
+    max-width: 300px;
+    margin: auto;
+}
+
+.job-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* Rounded corners */
+    margin-top: 10px;
+}
+
+.btn-logout {
+    background-color: #f44336; /* Red */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+
     </style>
 </head>
 <body>
@@ -53,15 +88,19 @@ $result = $conn->query($sql);
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.html" class="nav-item nav-link">Home</a>
+                <a href="All-job2.php" class="nav-item nav-link">Home</a>
                 <a href="job_seeker.php" class="nav-item nav-link">Work Status</a>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
                 <a href="user_profile.html" class="user_profile">
                     <img src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" alt="Profile">
                 </a>
             </div>
-            <a href="All-job.php" class="btn btn-outline-primary rounded-0 py-4 px-lg-4 d-none d-lg-block me-2">Post Job</a>
-            <a href="logout.php" class="btn btn-outline-danger rounded-0 py-4 px-lg-4 d-none d-lg-block">Logout</a>
+          <div class="unique-background">
+    <a href="All-job.php" class="btn-post">Post Job</a>
+<a href="logout.php" class="btn-logout">Logout</a>
+
+</div>
+
         </div>
     </nav>
 
@@ -86,9 +125,12 @@ $result = $conn->query($sql);
                 <div class="card mb-4 shadow-sm">
                     <div class="row g-0">
                         <?php if ($hasImage): ?>
-                            <div class="col-md-4">
-                                <img src="<?= htmlspecialchars($row['job_image']) ?>" class="img-fluid rounded-start" alt="Job Image">
-                            </div>
+                              
+                            <div class="col-md-4 job-card">
+    <p>Posted by <?= htmlspecialchars($row['posted_by']) ?></p>
+    <img src="<?= htmlspecialchars($row['job_image']) ?>" class="img-fluid rounded-start" alt="Job Image">
+</div>
+
                         <?php endif; ?>
                         <div class="col-md-<?= $hasImage ? '8' : '12' ?>">
                             <div class="card-body">
@@ -112,7 +154,7 @@ $result = $conn->query($sql);
                                     <strong>Vacancy:</strong> <?= htmlspecialchars($row['vacancy']) ?>
                                 </p>
                                 <small class="text-muted">
-                                    Posted by <?= htmlspecialchars($row['posted_by']) ?> on
+                                   
                                     <?= date('F j, Y, g:i a', strtotime($row['posted_at'])) ?>
                                 </small>
 

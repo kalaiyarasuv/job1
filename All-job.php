@@ -51,10 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     die("Prepare failed: " . $conn->error);
                 }
 
-                $stmt->bind_param("sssssssssssssi", 
-                    $jobTitle, $jobDescription, $jobCategory, $location, $salary, 
-                    $jobType, $contact, $uploadPath, $postedBy, 
-                    $startDate, $startTime, $endTime, $vacancy);
+              $stmt->bind_param("ssssssssssssi", 
+   $jobTitle, $jobDescription, $jobCategory, $location, $salary, 
+   $jobType, $contact, $uploadPath, $postedBy, 
+   $startDate, $startTime, $endTime, $vacancy);
+
 
                 if ($stmt->execute()) {
                     echo "<script>alert('Job posted successfully!'); window.location.href='pp.php';</script>";
@@ -186,3 +187,4 @@ $conn->close();
 </div>
 </body>
 </html>
+
