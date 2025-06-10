@@ -87,10 +87,30 @@ $result = $stmt->get_result();
                                     <strong>Location:</strong> <?= htmlspecialchars($row['location']) ?> | 
                                     <strong>Salary:</strong> <?= htmlspecialchars($row['salary']) ?>
                                 </p>
+                                 <p class="mb-1">
+                                    <strong>Start Date:</strong> <?= htmlspecialchars($row['start_date']) ?> |
+                                    <strong>Start Time:</strong> <?= date('g:i A', strtotime($row['start_time'])) ?> |
+                                    <strong>End Time:</strong> <?= date('g:i A', strtotime($row['end_time'])) ?>
+                                </p>
+                                <p>
+                                    <strong>Contact:</strong> <?= htmlspecialchars($row['phone']) ?>
+                                </p>
+                                <p>
+                                    <strong>Vacancy:</strong> <?= htmlspecialchars($row['vacancy']) ?>
+                                </p>
                                 <small class="text-muted">
                                     Posted by <?= htmlspecialchars($row['posted_by']) ?> on 
                                     <?= date('F j, Y, g:i a', strtotime($row['posted_at'])) ?>
                                 </small>
+                                   <form action="apply.php" method="post" class="mt-3">
+                                    <input type="hidden" name="job_id" value="<?= htmlspecialchars($row['job_id']) ?>">
+                                    <button type="submit" name="apply_type" value="individual" class="btn btn-success me-2">
+                                        Apply as Individual
+                                    </button>
+                                    <button type="submit" name="apply_type" value="group" class="btn btn-primary">
+                                        Apply as Group
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

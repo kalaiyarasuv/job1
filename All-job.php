@@ -19,10 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $location = $_POST['location'];
     $salary = $_POST['salary'];
     $jobType = $_POST['job_type'];
-    $postedBy = $_SESSION['username']; // Safe to use now
+    $startDate = $_POST['start_date'];
+    $startTime = $_POST['start_time'];
+    $endTime = $_POST['end_time'];
+    $contact = $_POST['phone'];
+    $vacancy = $_POST['vacancy'];
+    $postedBy = $_SESSION['username'];
     $uploadPath = "";
-
-    // ... your existing code continues here ...
 
     if (isset($_FILES['jobImage']) && $_FILES['jobImage']['error'] === 0) {
         $allowed = ['jpg', 'jpeg', 'png', 'gif'];
@@ -40,13 +43,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (move_uploaded_file($fileTmp, $uploadPath)) {
-                $stmt = $conn->prepare("INSERT INTO jobs (job_title, job_description, category, location, salary, job_type, job_image, posted_by, posted_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+                $stmt = $conn->prepare("INSERT INTO jobs 
+                    (job_title, job_description, category, location, salary, job_type, phone, job_image, posted_by, posted_at, start_date, start_time, end_time, vacancy) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?)");
 
                 if ($stmt === false) {
                     die("Prepare failed: " . $conn->error);
                 }
 
-                $stmt->bind_param("ssssssss", $jobTitle, $jobDescription, $jobCategory, $location, $salary, $jobType, $uploadPath, $postedBy);
+                $stmt->bind_param("sssssssssssssi", 
+                    $jobTitle, $jobDescription, $jobCategory, $location, $salary, 
+                    $jobType, $contact, $uploadPath, $postedBy, 
+                    $startDate, $startTime, $endTime, $vacancy);
 
                 if ($stmt->execute()) {
                     echo "<script>alert('Job posted successfully!'); window.location.href='pp.php';</script>";
@@ -68,6 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $conn->close();
 ?>
+
+
 
 <!-- HTML Form -->
 <!DOCTYPE html>
@@ -107,24 +117,31 @@ $conn->close();
                         <option value="Design & Creative">Design & Creative</option>
                     </select>
                 </div>
-
-                <div class="mb-3">
-    <label for="location" class="form-label">Location</label>
-    <select class="form-select" id="location" name="location" required>
-        <option value="" disabled selected>-- Select Location --</option>
-        <option value="Bangalore">Bangalore</option>
-        <option value="Hyderabad">Hyderabad</option>
-        <option value="Pune">Pune</option>
-        <option value="Chennai">Chennai</option>
-        <option value="Mumbai">Mumbai</option>
-        <option value="Gurgaon">Gurgaon</option>
-        <option value="Noida">Kerala</option>
-        <option value="Kolkata">Kolkata</option>
-        <option value="Ahmedabad">Ahmedabad</option>
-        <option value="Remote">Remote</option>
-    </select>
+          <div class="mb-3">
+    <label for="phone" class="form-label">Contact Number</label>
+    <input type="text" class="form-control" id="phone" name="phone" required>
 </div>
 
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <select class="form-select" id="location" name="location" required>
+                        <option value="" disabled selected>-- Select Location --</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Gurgaon">Gurgaon</option>
+                        <option value="Noida">Noida</option>
+                        <option value="Kolkata">Kolkata</option>
+                        <option value="Ahmedabad">Ahmedabad</option>
+                        <option value="Remote">Remote</option>
+                    </select>
+                </div>
+                 <div class="mb-3">
+    <label for="vacancy" class="form-label">Vacancy</label>
+    <input type="number" class="form-control" id="vacancy" name="vacancy" min="" required>
+</div>
 
                 <div class="mb-3">
                     <label for="salary" class="form-label">Salary</label>
@@ -140,6 +157,21 @@ $conn->close();
                         <option value="Freelance">Freelance</option>
                         <option value="Internship">Internship</option>
                     </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="start_date" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="start_time" class="form-label">Start Time</label>
+                    <input type="time" class="form-control" id="start_time" name="start_time" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="end_time" class="form-label">End Time</label>
+                    <input type="time" class="form-control" id="end_time" name="end_time" required>
                 </div>
 
                 <div class="mb-3">
